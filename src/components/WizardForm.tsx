@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Check, Clipboard, Users, ChevronLeft, ChevronRight, Trophy, Sparkles, Send, Calendar, Clock, MapPin } from "lucide-react";
 import { INGREDIENTS_LIST, IngredientInfo, Order, EventConfig } from "../types";
 import { AdaptiveSlider } from "./AdaptiveSlider";
+import { Stepper } from "./Stepper";
 
 const INGREDIENT_CALORIES: Record<string, number> = {
   pao: 280,
@@ -532,23 +533,7 @@ export default function WizardForm({ onSubmit, onSwitchToAdmin, isSimulated = fa
                       <span className="text-xs font-black tracking-wider uppercase text-gray-800">Brasil</span>
                       
                       {/* Score Controls */}
-                      <div className="flex items-center space-x-1 bg-white/95 backdrop-blur-sm rounded-full border border-gray-200 p-1">
-                        <button
-                          type="button"
-                          onClick={() => setScoreBrazil(prev => Math.max(0, prev - 1))}
-                          className="w-7 h-7 flex items-center justify-center text-sm font-black text-rose-550 hover:bg-rose-50 rounded-full transition"
-                        >
-                          -
-                        </button>
-                        <span className="text-lg font-black font-mono w-6 text-center text-gray-900">{scoreBrazil}</span>
-                        <button
-                          type="button"
-                          onClick={() => setScoreBrazil(prev => prev + 1)}
-                          className="w-7 h-7 flex items-center justify-center text-sm font-black text-emerald-700 hover:bg-emerald-50 rounded-full transition"
-                        >
-                          +
-                        </button>
-                      </div>
+                      <Stepper value={scoreBrazil} onChange={setScoreBrazil} min={0} max={99} />
                     </div>
 
                     {/* Versus badge */}
@@ -566,23 +551,7 @@ export default function WizardForm({ onSubmit, onSwitchToAdmin, isSimulated = fa
                       <span className="text-xs font-black tracking-wider uppercase text-gray-800">Marrocos</span>
 
                       {/* Score Controls */}
-                      <div className="flex items-center space-x-1 bg-white/95 backdrop-blur-sm rounded-full border border-gray-200 p-1">
-                        <button
-                          type="button"
-                          onClick={() => setScoreMorocco(prev => Math.max(0, prev - 1))}
-                          className="w-7 h-7 flex items-center justify-center text-sm font-black text-rose-550 hover:bg-rose-50 rounded-full transition"
-                        >
-                          -
-                        </button>
-                        <span className="text-lg font-black font-mono w-6 text-center text-gray-900">{scoreMorocco}</span>
-                        <button
-                          type="button"
-                          onClick={() => setScoreMorocco(prev => prev + 1)}
-                          className="w-7 h-7 flex items-center justify-center text-sm font-black text-emerald-700 hover:bg-emerald-50 rounded-full transition"
-                        >
-                          +
-                        </button>
-                      </div>
+                      <Stepper value={scoreMorocco} onChange={setScoreMorocco} min={0} max={99} />
                     </div>
 
                   </div>
