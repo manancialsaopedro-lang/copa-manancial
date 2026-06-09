@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+
+if [ -f package.json ] && command -v npm >/dev/null 2>&1; then
+  echo "Running Neon migrations after git pull..."
+  npm run db:migrate
+fi

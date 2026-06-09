@@ -2,8 +2,8 @@ import "dotenv/config";
 import express from "express";
 import path from "path";
 import fs from "fs";
-import { Pool } from "pg";
 import { createServer as createViteServer } from "vite";
+import { createDatabasePool, runMigrations } from "./src/server/db";
 
 const app = express();
 const PORT = 3000;
@@ -71,14 +71,7 @@ const DEFAULT_INGREDIENTS: Ingredient[] = [
   { id: "ketchup", name: "Ketchup Heinz", emoji: "❤️", cost: 0.4, isDefault: false, category: "sauce" },
 ];
 
-const databaseUrl = process.env.DATABASE_URL?.trim();
-const pool = databaseUrl
-  ? new Pool({
-      connectionString: databaseUrl,
-      ssl: { rejectUnauthorized: false },
-      enableChannelBinding: databaseUrl.includes("channel_binding=require"),
-    } as ConstructorParameters<typeof Pool>[0] & { enableChannelBinding: boolean })
-  : null;
+const pool = createDatabasePool();
 
 function ensureLocalDataFiles() {
   if (!fs.existsSync(DATA_DIR)) {
@@ -115,21 +108,7 @@ async function initializeDatabase() {
     return;
   }
 
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS app_settings (
-      key text PRIMARY KEY,
-      value jsonb NOT NULL,
-      updated_at timestamptz NOT NULL DEFAULT now()
-    );
-  `);
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS orders (
-      id text PRIMARY KEY,
-      data jsonb NOT NULL,
-      created_at timestamptz NOT NULL DEFAULT now()
-    );
-  `);
+  await runMigrations(pool);
 
   await pool.query(
     `INSERT INTO app_settings (key, value)
