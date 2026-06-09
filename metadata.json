@@ -1,0 +1,6 @@
+{
+  "name": "Copa Manancial",
+  "description": "Formulário Wizard estilo Copa do Mundo para montagem de hambúrgueres e Bolão de apostas do encontro de jovens Manancial.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
